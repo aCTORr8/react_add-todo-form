@@ -8,6 +8,10 @@ import { User } from './types/User';
 import { Todo } from './types/Todo';
 
 function getNewTodoId(todos: Todo[]) {
+  if (todos.length === 0) {
+    return 1;
+  }
+
   const maxId = Math.max(...todos.map(todo => todo.id));
 
   return maxId + 1;
@@ -24,22 +28,22 @@ export const App = () => {
   const [userId, setUserId] = useState(0);
   const [hasUserIdError, setHasUserIdError] = useState(false);
 
-    const [todos, setTodos] = useState(
-      todosFromServer.map(todo => ({
-        ...todo,
-        user: getUserById(todo.userId),
-      })),
-    );
+  const [todos, setTodos] = useState(
+    todosFromServer.map(todo => ({
+      ...todo,
+      user: getUserById(todo.userId),
+    })),
+  );
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     setHasTitleError(false);
-  }
+  };
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setUserId(+event.target.value);
     setHasUserIdError(false);
-  }
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -60,9 +64,9 @@ export const App = () => {
     };
 
     setTodos(prev => [...prev, newTodo]);
-      setTitle('');
-      setUserId(0);
-  }
+    setTitle('');
+    setUserId(0);
+  };
 
   return (
     <div className="App">
